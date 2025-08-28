@@ -1,0 +1,145 @@
+﻿@model List<ExpenseTracker.Domain.DTOs.ExpenseSummaryModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="m-4">
+    <h4>Expense Summary</h4>
+    <div class="row">
+        <!-- Main selector -->
+        <div class="col-2 d-flex">
+            <div class="form-group mt-4">
+                <select class="form-select form-select-sm" id="dateOptionSelect">
+                    <option selected>-- Select --</option>
+                    <option value="1">Select Date Range</option>
+                    <option value="2">Select Month</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Date range section -->
+        <div class="col-4" id="dateRangeSection" style="display: none!important;">
+            <div class="d-flex gap-2">
+                <div class="form-group">
+                    <label class="control-label">Start Date</label>
+                    <input type="date" class="form-control form-control-sm" id="startdate" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">End Date</label>
+                    <input type="date" class="form-control form-control-sm" id="enddate" />
+                </div>
+                <div class="form-group mt-4">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="GetSummaryDetails(0)">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Month/year section -->
+        <div class="col-4" id="monthSection" style="display: none!important;">
+            <div class="d-flex gap-2">
+                <div class="form-group">
+                    <label class="control-label">Month</label>
+                    <select class="form-select form-select-sm" id="monthOptionSelect">
+                        <option selected disabled>-- Select Month --</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">Auguest</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Year</label>
+                    <select class="form-select form-select-sm" id="yearOptionSelect">
+                        <option selected disabled>-- Select Year --</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <!-- Add more years as needed -->
+                    </select>
+                </div>
+                <div class="form-group mt-4">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="GetSummaryDetails(1)">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="expenseSummarySection">
+        @Html.Partial("_ExpenseSummaryPartial", Model)
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            
+            $('#expenseTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: false,
+                responsive: true,
+                lengthChange: false
+            });
+
+            $('#dateOptionSelect').on('change', function () {
+                const value = $(this).val();
+
+                if (value === '1') {
+                    $('#dateRangeSection').show();
+                    $('#monthSection').hide();
+                } else if (value === '2') {
+                    $('#monthSection').show();
+                    $('#dateRangeSection').hide();
+                } else {
+                    $('#dateRangeSection, #monthSection').hide();
+                }
+            });
+        });
+    </script>
+    <script>
+        function GetSummaryDetails(flag)
+        {
+            let filterData = {
+                flag: flag,
+                startdate: null,
+                enddate: null,
+                month: null,
+                year: null
+            };
+
+            if (flag == 0) {
+                filterData.startdate = $("#startdate").val();
+                filterData.enddate = $("#enddate").val();
+            }
+            else if (flag == 1) {
+                filterData.month = $("#monthOptionSelect").val();
+                filterData.year = $("#yearOptionSelect").val();
+            }
+
+            $.ajax({
+                url: '/Reports/GetExpenseSummary',
+                type: 'POST',
+                contentType: 'application/json', // Inform the server we're sending JSON
+                data: JSON.stringify(filterData), // Convert the data to JSON
+                success: function (response) {
+                    $("#expenseSummarySection").html(response);
+                    $('#expenseTable').DataTable(); // Reinitialize DataTable if needed
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+    </script>
+}

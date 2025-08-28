@@ -1,0 +1,78 @@
+﻿@using ExpenseTracker.Domain.DTOs
+@model ExpenseReportSummaryViewModel
+
+@{
+	ViewData["Title"] = "Home Page";
+	decimal monthlyBudget = 25000;
+}
+<div class="dashboardbody">
+	<div class="container pt-3">
+		<div class="row">
+			<p>Monthly Budget : @monthlyBudget Rs.</p>
+		</div>
+		<div class="row">
+
+		</div>
+		<div class="row">
+			<div class="col-5">
+				<div id="monthlysummarysection">
+					@Html.Partial("_MonthlyExpenseSummaryPartial", Model)
+				</div>
+			</div>
+			<div class="col-7">
+				<div id="yearlysummarysection">
+					@Html.Partial("_YearlyExpenseSummaryPartial", Model)
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+			const bars = document.querySelectorAll('.bar');
+			const maxAmount = Math.max(...Array.from(bars).map(bar => parseInt(bar.getAttribute('data-amount'))));
+
+			bars.forEach(bar => {
+				const amount = parseInt(bar.getAttribute('data-amount'));
+				const widthPercentage = (amount / maxAmount) * 100;
+				bar.style.width = `${widthPercentage}%`;
+			});
+        });
+    </script>
+    <script>
+		function GetExpenseSummaryList()
+        {
+			let month = $("#drpMonth").val();
+			let year = $("#drpYear").val();
+            $.ajax({
+				url: '/Home/GetMonthlyExpenseDetails',
+                type: 'GET',
+                data: {month : month, year : year},
+                success: function (response) {
+					$("#monthlysummarysection").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+		function GetCategoryExpenseSummaryList()
+		{
+			let year = $("#drpCategoryYear").val();
+			$.ajax({
+				url: '/Home/GetYearlyExpenseDetails',
+				type: 'GET',
+				data: {year : year},
+				success: function (response) {
+					$("#yearlysummarysection").html(response);
+				},
+				error: function (xhr, status, error) {
+					console.error("Error:", error);
+				}
+			});
+		}
+    </script>
+}

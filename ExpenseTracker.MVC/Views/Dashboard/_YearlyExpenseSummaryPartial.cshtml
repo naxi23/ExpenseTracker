@@ -1,0 +1,37 @@
+﻿@using ExpenseTracker.Domain.DTOs
+@model ExpenseReportSummaryViewModel
+
+<div class="form-group mb-2 d-flex gap-2" style="margin-left: 75px">
+	<select class="form-select form-select-sm" style="width:100px;" id="drpCategoryYear" onchange="GetCategoryExpenseSummaryList()">
+		@for (int i = 2015; i <= 2025; i++)
+		{
+			@if (Model.CurrentYear == i)
+			{
+				<option value="@i" selected>@(i)</option>
+			}
+			else
+			{
+				<option value="@i">@(i)</option>
+			}
+		}
+	</select>
+</div>
+<div class="barcontainer">
+	<div class="barheader">
+		<div class="bartitle">EXPENSE BY <span>CATEGORY</span></div>
+	</div>
+	<div class="expense-list">
+		@if(Model != null && Model.ExpenseYearlySummary.Any())
+		{
+			foreach(var item in Model.ExpenseYearlySummary)
+			{
+				<div class="expense-item">
+					@* <div class="baricon">⛽</div> *@
+					<div class="barlabel">@item.Category</div>
+					<div class="bar-container"><div class="bar" data-amount="@((int)item.SpendAmount)"></div></div>
+					<div class="baramount">@item.SpendAmount.ToString("C")</div>
+				</div>
+			}
+		}
+	</div>
+</div>

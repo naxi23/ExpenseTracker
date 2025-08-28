@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ExpenseTracker.Domain.Entities.Expense>
+
+@{
+	ViewData["Title"] = "Index";
+}
+<div class="mw-100 m-4">
+	<h5>Expenses</h5>
+	<p>
+		<a type="button" class="btn btn-outline-success" asp-action="Create">+ Add</a>
+	</p>
+	<div class="row">
+		<div class="col">
+			<table class="table">
+				<thead class="table-warning">
+					<tr>
+						<th>
+							Name
+						</th>
+						<th>
+							Description
+						</th>
+						<th>
+							Category
+						</th>
+						<th>
+							Amount
+						</th>
+						<th>
+							Date
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(modelItem => item.Name)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Description)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Amount)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.CreatedDate)
+							</td>
+							<td class="text-end gap-2">
+								<a type="button" class="m-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit" style="font-size:20px;color:darkolivegreen"></i></a> |
+								<a type="button" class="m-2" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash-o" style="font-size:20px;color:red"></i></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+

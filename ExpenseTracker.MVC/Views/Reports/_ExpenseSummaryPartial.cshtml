@@ -1,0 +1,27 @@
+﻿@model List<ExpenseTracker.Domain.DTOs.ExpenseSummaryModel>
+
+<table id="expenseTable" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>SubCategory</th>
+            <th>Created Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Amount.ToString("C")</td>
+                <td>@item.CategoryName</td>
+                <td>@item.SubCategoryName</td>
+                <td>@item.CreatedDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,50 @@
+﻿@model ExpenseTracker.Domain.Entities.Expense
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="mw-100 m-4">
+    <h5>Add Expense</h5>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SubCategoryID" class="control-label">Category</label>
+                    <select asp-for="SubCategoryID" class="form-control" asp-items="ViewBag.SubCategoryID"></select>
+                    <span asp-validation-for="SubCategoryID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreatedDate" class="control-label">Date</label>
+                    <input type="date" asp-for="CreatedDate" class="form-control" />
+                    <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-4 d-flex gap-2">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                    <a class="btn btn-warning" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

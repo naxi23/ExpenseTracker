@@ -1,0 +1,42 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-select:focus, form-select-sm:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+#expenseTable {
+    font-size: 0.85rem;
+}
+
+/* Reduce font size in DataTables wrapper (search, info, pagination) */
+.dataTables_wrapper {
+    font-size: 0.85rem;
+}
+
+div.dt-container .dt-length, div.dt-container .dt-search, div.dt-container .dt-info, div.dt-container .dt-processing, div.dt-container .dt-paging{
+    font-size: smaller
+}

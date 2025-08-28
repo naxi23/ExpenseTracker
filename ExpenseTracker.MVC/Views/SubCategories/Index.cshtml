@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ExpenseTracker.Domain.Entities.SubCategory>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h5>Sub Categories</h5>
+
+<p>
+    <a type="button" class="btn btn-outline-success" asp-action="Create">+ Add</a>
+</p>
+<div>
+    <div class="row">
+        <div class="col-5">
+            <table class="table">
+                <thead class="table-warning">
+                    <tr>
+                        <th>Name</th>
+                        <th>Category Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SubCategoryName)
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                            <td class="text-end gap-2">
+                                <a type="button" class="m-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit" style="font-size:20px;color:darkolivegreen"></i></a> |
+                                <a type="button" class="m-2" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash-o" style="font-size:20px;color:red"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

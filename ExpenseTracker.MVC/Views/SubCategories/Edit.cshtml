@@ -1,0 +1,35 @@
+﻿@model ExpenseTracker.Domain.Entities.SubCategory
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h5>Update SubCategory</h5>
+
+<div class="row">
+    <div class="col-md-4">
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="SubCategoryName" class="control-label">Name</label>
+                <input asp-for="SubCategoryName" class="form-control" />
+                <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="CategoryID" class="control-label">Category</label>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-4 d-flex gap-2">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-warning" asp-action="Index">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
